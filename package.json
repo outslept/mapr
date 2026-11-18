@@ -1,11 +1,11 @@
 {
   "type": "module",
   "scripts": {
-    "check": "oxfmt --check && oxlint --type-aware && node --test",
+    "check": "oxfmt --check && oxlint && tsc && node --test",
     "dev:coordinator": "node src/coordinator.ts",
     "dev:worker": "node src/worker.ts",
-    "lint": "oxlint --type-aware",
-    "lint:fix": "oxlint --type-aware --fix",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "test": "node --test"
@@ -16,8 +16,7 @@
   "devDependencies": {
     "@types/node": "^26.6.6",
     "oxfmt": "^0.79.0",
-    "oxlint": "^1.23.0",
-    "oxlint-tsgolint": "^7.0.2007",
+    "oxlint": "^1.94.0",
     "typescript": "^7.0.2"
   }
 }
