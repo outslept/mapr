@@ -1,16 +1,18 @@
 {
+  "type": "module",
   "scripts": {
-    "dev:coordinator": "bun run src/coordinator.mts",
-    "dev:worker": "bun run src/worker.mts",
-    "lint": "oxlint"
+    "dev:coordinator": "node src/coordinator.ts",
+    "dev:worker": "node src/worker.ts",
+    "lint": "oxlint",
+    "test": "node --test"
   },
-	"devDependencies": {
-		"@types/node": "^24.9.1",
-		"oxlint": "^1.23.0",
-		"oxlint-tsgolint": "^0.2.0",
-		"typescript": "^5.9.3"
-	},
-	"dependencies": {
-		"tinyglobby": "^0.2.15"
-	}
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "oxlint": "^1.23.0",
+    "oxlint-tsgolint": "^0.2.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "tinyglobby": "^0.2.15"
+  }
 }
