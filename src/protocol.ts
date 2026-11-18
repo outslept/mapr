@@ -54,11 +54,7 @@ export const isPollRequest = (val: unknown): val is PollRequest =>
   isObject(val) && typeof val.workerId === "string";
 
 export const isReportRequest = (val: unknown): val is ReportRequest => {
-  if (
-    !isObject(val) ||
-    typeof val.workerId !== "string" ||
-    typeof val.success !== "boolean"
-  ) {
+  if (!isObject(val) || typeof val.workerId !== "string" || typeof val.success !== "boolean") {
     return false;
   }
   if (val.type === "map") return isNonNegativeInt(val.mapId);
@@ -74,9 +70,7 @@ export const isPollResponse = (val: unknown): val is PollResponse => {
       return true;
     case "map":
       return (
-        isNonNegativeInt(val.mapId) &&
-        typeof val.file === "string" &&
-        isNonNegativeInt(val.nReduce)
+        isNonNegativeInt(val.mapId) && typeof val.file === "string" && isNonNegativeInt(val.nReduce)
       );
     case "reduce":
       return isNonNegativeInt(val.reduceId) && isNonNegativeInt(val.nReduce);

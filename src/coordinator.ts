@@ -30,17 +30,12 @@ const makeTask = (id: number, file = ""): Task => ({
   startedAtMs: undefined,
 });
 
-const allDone = (tasks: readonly Task[]): boolean =>
-  tasks.every((t) => t.state === "done");
+const allDone = (tasks: readonly Task[]): boolean => tasks.every((t) => t.state === "done");
 
 const reapList = (tasks: readonly Task[], deadline: number): void => {
   for (let i = 0; i < tasks.length; i++) {
     const t = tasks[i]!;
-    if (
-      t.state === "in-progress" &&
-      t.startedAtMs !== undefined &&
-      t.startedAtMs <= deadline
-    ) {
+    if (t.state === "in-progress" && t.startedAtMs !== undefined && t.startedAtMs <= deadline) {
       t.state = "idle";
       t.workerId = undefined;
       t.startedAtMs = undefined;
@@ -86,14 +81,10 @@ const parseArgs = async (argv: readonly string[]): Promise<Args> => {
   if (!Number.isInteger(port) || port < 1) throw new Error("bad --port");
   if (!Number.isInteger(nReduce) || nReduce < 1) throw new Error("bad --nReduce");
 
-  const patterns = argv
-    .filter((a) => !a.startsWith("--"))
-    .map((p) => p.replace(/\\/g, "/"));
+  const patterns = argv.filter((a) => !a.startsWith("--")).map((p) => p.replace(/\\/g, "/"));
 
   const candidates = patterns.length > 0 ? await glob(patterns) : [];
-  const stats = await Promise.all(
-    candidates.map((p) => fsp.stat(p, { throwIfNoEntry: false })),
-  );
+  const stats = await Promise.all(candidates.map((p) => fsp.stat(p, { throwIfNoEntry: false })));
 
   const unique = new Set<string>();
   for (let i = 0; i < candidates.length; i++) {
@@ -115,11 +106,7 @@ const readJson = async (req: http.IncomingMessage): Promise<unknown> => {
   return body.length === 0 ? {} : JSON.parse(body);
 };
 
-const sendJson = (
-  res: http.ServerResponse,
-  status: number,
-  body: string,
-): void => {
+const sendJson = (res: http.ServerResponse, status: number, body: string): void => {
   res.writeHead(status, { "Content-Type": "application/json" }).end(body);
 };
 
@@ -164,9 +151,7 @@ const createServer = (args: Args, timeoutMs = TIMEOUT_MS): http.Server => {
       if (completeTask(mapTasks, req.mapId, req.workerId, req.success)) {
         phase = "reduce";
       }
-    } else if (
-      completeTask(reduceTasks, req.reduceId, req.workerId, req.success)
-    ) {
+    } else if (completeTask(reduceTasks, req.reduceId, req.workerId, req.success)) {
       phase = "done";
     }
   };

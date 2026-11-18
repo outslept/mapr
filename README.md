@@ -76,10 +76,12 @@ node --test
 ### Commands and flags
 
 Coordinator (positional args are input files/patterns):
+
 - `--port` - HTTP port to listen on (default: `8787`)
 - `--nReduce` - Number of reduce partitions (default: `4`)
 - `inputs...` - File paths or glob patterns (required)
 
 Worker:
+
 - `--coord` - Coordinator base URL (default: `http://127.0.0.1:8787`)
 - `--plugin` - Filesystem path to plugin module (default: `./plugins/wc.ts`)

@@ -76,10 +76,7 @@ test("coordinator transitions map -> sleep -> reduce -> done and ignores stale w
 });
 
 test("coordinator reaps timed-out tasks without sleeping", async () => {
-  const server = createServer(
-    { port: 0, nReduce: 1, inputFiles: ["a.txt"] },
-    0,
-  );
+  const server = createServer({ port: 0, nReduce: 1, inputFiles: ["a.txt"] }, 0);
   server.listen(0);
   await once(server, "listening");
   const { port } = server.address() as AddressInfo;
