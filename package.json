@@ -14,7 +14,7 @@
     "tinyglobby": "^0.2.15"
   },
   "devDependencies": {
-    "@types/node": "^24.9.1",
+    "@types/node": "^26.6.6",
     "oxfmt": "^0.79.0",
     "oxlint": "^1.23.0",
     "oxlint-tsgolint": "^0.2.0",
