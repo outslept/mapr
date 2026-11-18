@@ -84,7 +84,7 @@ const parseArgs = async (argv: readonly string[]): Promise<Args> => {
   const patterns = argv.filter((a) => !a.startsWith("--")).map((p) => p.replace(/\\/g, "/"));
 
   const candidates = patterns.length > 0 ? await glob(patterns) : [];
-  const stats = await Promise.all(candidates.map((p) => fsp.stat(p, { throwIfNoEntry: false })));
+  const stats = await Promise.all(candidates.map((p) => fsp.stat(p).catch(() => undefined)));
 
   const unique = new Set<string>();
   for (let i = 0; i < candidates.length; i++) {

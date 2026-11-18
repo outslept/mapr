@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "demo": "node scripts/demo.ts",
+    "check": "oxfmt --check && oxlint --type-aware && node --test",
     "dev:coordinator": "node src/coordinator.ts",
     "dev:worker": "node src/worker.ts",
     "lint": "oxlint --type-aware",
