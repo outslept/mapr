@@ -1,4 +1,4 @@
-# TypeScript MapReduce
+# `mapr`
 
 Minimal, strictly typed MapReduce for local exploration. One HTTP/JSON coordinator, many workers, plugin-defined map/reduce, file-based intermediates.
 
@@ -22,8 +22,8 @@ flowchart LR
   C -- map: {file,mapId,nReduce} --> W1
   C -- reduce: {reduceId,nReduce} --> W2
 
-  W1 -- mr-map-reduce JSONL --> FS
-  W2 -- reads mr-*-reduceId-*.jsonl --> FS
+  W1 -- mr-mapId-reduceId.jsonl --> FS
+  W2 -- reads mr-*-reduceId.jsonl --> FS
   W2 -- mr-out-reduceId --> FS
 
   W1 -- POST /reportTask --> C
@@ -36,7 +36,7 @@ flowchart LR
 
 ## Quickstart
 
-Create a few inputs:
+Run manually:
 
 ```bash
 mkdir -p data
@@ -45,17 +45,17 @@ printf 'base base base all of them\n' > data/pg-2.txt
 printf 'to be or not to be base\n' > data/pg-3.txt
 ```
 
-Run the coordinator (Bun):
+Start the coordinator:
 
 ```bash
-bun run src/coordinator.mts --port=8787 --nReduce=4 "data/pg-*.txt"
+node src/coordinator.ts --port=8787 --nReduce=4 "data/pg-*.txt"
 # expected: "coordinator :8787 maps=3 reduces=4"
 ```
 
-Start a few workers:
+Start one or more workers:
 
 ```bash
-bun run src/worker.mts --coord=http://127.0.0.1:8787 --plugin=./plugins/wc.mts
+node src/worker.ts --coord=http://127.0.0.1:8787 --plugin=./plugins/wc.ts
 ```
 
 Inspect results:
@@ -65,21 +65,21 @@ ls mr-out-*
 cat mr-out-* | sort | head -n 20
 ```
 
-## CLI
+## CLI & Scripts
 
 ```bash
-bun run src/coordinator.mts --port=8787 --nReduce=4 "data/pg-*.txt"
-
-bun run src/worker.mts --coord=http://127.0.0.1:8787 --plugin=./plugins/wc.mts
+node src/coordinator.ts --port=8787 --nReduce=4 "data/pg-*.txt"
+node src/worker.ts --coord=http://127.0.0.1:8787 --plugin=./plugins/wc.ts
+node --test
 ```
 
 ### Commands and flags
 
 Coordinator (positional args are input files/patterns):
-- `--port` - HTTP port to listen on (default: 8787)
-- `--nReduce` - Number of reduce partitions (default: 4)
+- `--port` - HTTP port to listen on (default: `8787`)
+- `--nReduce` - Number of reduce partitions (default: `4`)
 - `inputs...` - File paths or glob patterns (required)
 
 Worker:
-- `--coord` - Coordinator base URL (default: http://127.0.0.1:8787)
-- `--plugin` - Filesystem path to plugin module (default: `./plugins/wc.mts`)
+- `--coord` - Coordinator base URL (default: `http://127.0.0.1:8787`)
+- `--plugin` - Filesystem path to plugin module (default: `./plugins/wc.ts`)
